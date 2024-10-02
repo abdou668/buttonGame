@@ -1,0 +1,69 @@
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeu du bouton</title>
+    <style>
+        *{background-color: lightseagreen;text-align: center;}
+        .hidden{opacity: 0;}
+        .noDisp{display: none;}
+        #btn {font:bold 1em sans-serif; cursor: pointer;height: 80px;width: 150px; background: burlywood;box-shadow: -10px 10px  gray;border-radius: 20px;border: solid 0px;}
+        #btn:hover{background: rgb(222, 160, 84);transition: 0.2s;}
+        #btn:active{box-shadow: -3px 3px  gray;transition: 0.2s;}
+        #btn:focus{outline: none;}
+    </style>
+</head>
+
+<body>
+    <h1 style="font-family: 'Courier New', Courier, monospace;">BUTTON GAME</h1>
+    <h3>Bienvenue dans le jeu du bouton. Le but est d'arriver jusqu'a 100 en cliquant dessus. Ca parait simple, n'est ce pas ^^ ...</h3>
+    <button id="btn">CLIQUE</button>
+    <script>
+        let compteur=0;
+        let countdown=3;
+        const btn = document.getElementById("btn");
+        function fcountdown() {
+            btn.disabled =true;
+            btn.textContent = "ATTENTION";
+            let interval=setInterval(function(){
+                btn.textContent = countdown;
+                countdown--;
+                if (countdown<0){
+                    clearInterval(interval);
+                    btn.textContent = "GO !";
+                    btn.disabled=false;
+                }
+            },1000)
+            setTimeout(function(){btn.style="width:20em;height: 10em;"},3000);
+            setTimeout(function(){document.querySelector('h3').classList.add("hidden")},2000);
+            setTimeout(function(){document.querySelector('h3').classList.add("noDisp")},3000);
+        }
+        function ajout() {
+            if (compteur===0 && countdown >0){
+                    fcountdown();
+                }
+            else {
+            compteur++;
+            btn.textContent = compteur;
+            if (compteur<20 && compteur>10) {
+                btn.style="width:80px;height: 30px;transition:0.2s;";
+            }
+            else if (compteur<40 && compteur>20) {
+                let XEcran=window.innerWidth;
+                let YEcran=window.innerHeight;
+                const randomX = Math.random() * (XEcran - 80);
+                const randomY = Math.random() * (YEcran - 30);
+                btn.style="position:absolute;";
+                btn.style.left=`${randomX}px`;
+                btn.style.top=`${randomY}px`;
+            }
+            }
+
+        }
+        btn.onclick = ajout;
+        btn.addEventListener("keydown", function(event) {
+            if (event.key === "Enter" || event.key === " " || event.keyCode === 32) {
+                event.preventDefault();}})
+    </script>
+</body>
+</html>
